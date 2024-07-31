@@ -1,0 +1,24 @@
+#cloud-config
+autoinstall:
+  source:
+    id: ubuntu-server-minimal
+  locale: en_US.UTF-8
+  keyboard:
+    layout: se
+  timezone: Europe/Stockholm
+  network:
+    version: 2
+    ethernets:
+      enp1s0:
+        dhcp4: true
+  identity:
+    hostname: psi
+    username: magnus
+    password: '$6$w9PC6PwAF2ZFnAVq$BNel0nutHEbAqHRj12OHcAPpCneLbfW9Xw09hH2yg.Wsu0GQICyuBo2oPXHaQNZshK9FGNsvP1ZBqZi3ghf/K1'
+  ssh:
+    install-server: true
+    allow-pw: true
+  shutdown: reboot
+  storage:
+    layout:
+      name: lvm
