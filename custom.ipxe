@@ -1,12 +1,26 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
 
 :start
-echo Hello world!
-sleep 10
-goto custom_exit
+menu iPXE Boot Menu
+item --gap -- ---------------------
+item ubuntu24  Ubuntu Server 24 LTS
+item --gap -- ---------------------
+item shell     Drop to iPXE shell
+item reboot    Reboot
 
-:custom_exit
-exit 0
+choose --default ubuntu24 --timeout 5000 target && goto ${target}
+
+:ubuntu24
+kernel http://10.15.90.10:31011/ubuntu-squash/releases/download/24.04-dac09526/vmlinuz autoinstall ds=nocloud-net;s=https://raw.githubusercontent.com/miyago1/netboot.xyz-custom/master/user-data
+initrd http://10.15.90.10:31011/ubuntu-squash/releases/download/24.04-dac09526/initrd
+boot || goto failed
+
+:shell
+shell || goto start
+
+:reboot
+reboot || goto start
+
+:failed
+echo Boot failed, dropping to shell
+shell
