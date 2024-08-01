@@ -14,13 +14,15 @@ choose --default ubuntu24 --timeout 5000 target && goto ${target}
 set os_arch amd64
 set codename noble
 set version_number 24.04
-set config http://10.15.90.10:31011/noble
+set config_url http://10.15.90.10:31011/noble/cloud-config.yaml
 set ubuntu_iso_url http://10.15.90.10:31011/iso/ubuntu-24.04-live-server-amd64.iso
+set kernel_url http://10.15.90.10:31011/noble/vmlinuz
+set initrd_url http://10.15.90.10:31011/noble/initrd
 
-kernel http://10.15.90.10:31011/noble/vmlinuz
-initrd http://10.15.90.10:31011/noble/initrd
-imgargs vmlinuz initrd=initrd ip=dhcp cloud-config-url=/dev/null url=${ubuntu_iso_url} autoinstall ds=nocloud-net;s=${config}
-boot
+kernel ${kernel_url}
+initrd ${initrd_url}
+imgargs vmlinuz initrd=initrd boot=casper iso-scan/filename=${ubuntu_iso_url} autoinstall ds=nocloud-net;s=${config_url}
+boot || goto failed
 
 :shell
 shell || goto start
