@@ -19,9 +19,8 @@ set ubuntu_iso_url http://10.15.90.10:31011/iso/ubuntu-24.04-live-server-amd64.i
 set kernel_url http://10.15.90.10:31011/noble/vmlinuz
 set initrd_url http://10.15.90.10:31011/noble/initrd
 
-kernel ${kernel_url}
+kernel ${kernel_url} root=/dev/ram0 ramdisk_size=1500000 ip=dhcp url=${ubuntu_iso_url} initrd=initrd.magic
 initrd ${initrd_url}
-imgargs vmlinuz initrd=initrd boot=casper iso-scan/filename=${ubuntu_iso_url} autoinstall ds=nocloud-net;s=${config_url}
 boot || goto failed
 
 :shell
