@@ -11,16 +11,15 @@ item reboot    Reboot
 choose --default ubuntu24 --timeout 5000 target && goto ${target}
 
 :ubuntu24
-set install_params auto=true priority=critical
-set mirror http://archive.ubuntu.com
-set base_dir ubuntu
-set ubuntu_version noble
-set arch amd64
-set mirrorcfg mirror/suite=${ubuntu_version}
-set dir ${mirror}/${base_dir}/dists/${version}/main/installer-${arch}/current/images/netboot
+set os_arch amd64
+set codename noble
+set version_number 24.04
+set config http://10.15.90.10:31011/noble
+set ubuntu_iso_url http://10.15.90.10:31011/iso/ubuntu-24.04-live-server-amd64.iso
 
-kernel ${dir}/linux ${install_params} ${mirrorcfg} -- quiet initrd=initrd.gz
-initrd ${dir}/initrd.gz
+kernel http://10.15.90.10:31011/noble/vmlinuz
+initrd http://10.15.90.10:31011/noble/initrd
+imgargs vmlinuz initrd=initrd ip=dhcp cloud-config-url=/dev/null url=${ubuntu_iso_url} autoinstall ds=nocloud-net;s=${config}
 boot
 
 :shell
