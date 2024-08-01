@@ -11,9 +11,17 @@ item reboot    Reboot
 choose --default ubuntu24 --timeout 5000 target && goto ${target}
 
 :ubuntu24
-kernel http://10.15.90.10:31011/iso/ubuntu-24.04-live-server-amd64.iso autoinstall ds=nocloud-net;s=https://raw.githubusercontent.com/miyago1/netboot.xyz-custom/master/user-data
-initrd http://10.15.90.10:31011/iso/initrd
-boot || goto failed
+set install_params auto=true priority=critical
+set mirror http://archive.ubuntu.com
+set base_dir ubuntu
+set ubuntu_version noble
+set arch amd64
+set mirrorcfg mirror/suite=${ubuntu_version}
+set dir ${mirror}/${base_dir}/dists/${version}/main/installer-${arch}/current/images/netboot
+
+kernel ${dir}/linux ${install_params} ${mirrorcfg} -- quiet initrd=initrd.gz
+initrd ${dir}/initrd.gz
+boot
 
 :shell
 shell || goto start
@@ -24,3 +32,4 @@ reboot || goto start
 :failed
 echo Boot failed, dropping to shell
 shell
+
