@@ -17,7 +17,7 @@ set ubuntu_iso_url http://10.15.90.10:31011/iso/ubuntu-24.04-live-server-amd64.i
 set kernel_url http://10.15.90.10:31011/ubuntu/noble/casper/vmlinuz
 set initrd_url http://10.15.90.10:31011/ubuntu/noble/casper/initrd
 
-kernel ${kernel_url} autoinstall ip=dhcp url=${ubuntu_iso_url} ds=nocloud-net;s=${seed_url}
+kernel ${kernel_url} autoinstall ip=dhcp url=${ubuntu_iso_url} ds=nocloud-net;s=${seed_url} cloud-config-url=http://10.15.90.10:31011/ubuntu/templates/user-data
 initrd ${initrd_url}
 boot || goto failed
 
