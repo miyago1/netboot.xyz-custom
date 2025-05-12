@@ -1,7 +1,7 @@
 #!ipxe
 
 :start
-set base_url = http://10.15.90.10:31011
+set base_url http://10.15.90.10:31011
 menu iPXE Boot Menu
 item --gap -- ---------------------
 item ubuntu24  Ubuntu Server 24 LTS
